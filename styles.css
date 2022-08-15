@@ -1,0 +1,32 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    background-color: #36454f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.header {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    height: 640px;
+    width: 640px;
+    gap: 0;
+    border-style: solid;
+}
+
+.square {
+    width: 32px;
+    height: 32px;
+    border-style: solid;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    border-width: 1px;
+    user-select: none;
+}
