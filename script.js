@@ -51,6 +51,6 @@ function clearContainer() {
 function clearGrid() {
     squares = document.querySelectorAll('.square');
     for (let i = 0; i < squares.length; i++) {
-        squares[i].style.backgroundColor = '#36454f';
+        squares[i].style.backgroundColor = container.getAttribute('background-color');
     }
 }
