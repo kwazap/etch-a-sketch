@@ -4,7 +4,7 @@ const container = document.querySelector('.container')
 let mouseDown = false;
 container.addEventListener('mousedown', () => mouseDown = true);
 container.addEventListener('mouseup', () => mouseDown = false);
-let gridSize = 100;
+let gridSize = 32;
 let squareWidth = 640 / gridSize - 2;
 
 

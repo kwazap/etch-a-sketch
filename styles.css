@@ -19,6 +19,7 @@ body {
     width: 640px;
     gap: 0;
     border-style: solid;
+    flex: 0 0 auto;
 }
 
 .square {
@@ -29,4 +30,8 @@ body {
     margin: 0 0 0 0;
     border-width: 1px;
     user-select: none;
+}
+
+main {
+    display: flex;
 }
