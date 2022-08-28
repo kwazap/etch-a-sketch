@@ -20,16 +20,18 @@ body {
     gap: 0;
     border-style: solid;
     flex: 0 0 auto;
+    background-color:black;
 }
 
 .square {
     width: 32px;
     height: 32px;
-    border-style: solid;
+    border-style: none;
     padding: 0 0 0 0;
-    margin: 0 0 0 0;
+    margin: 1px 1px 1px 1px;
     border-width: 1px;
     user-select: none;
+    background-color: #36454f;
 }
 
 main {

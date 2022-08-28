@@ -13,7 +13,7 @@ let numberOfSquares;
 drawBoard(16);
 
 function drawBoard(gridSize) {
-    let squareWidth = 640 / gridSize - 2;
+    let squareWidth = 640 / gridSize -2;
     numberOfSquares = gridSize * gridSize;
     for (let i = 0; i < numberOfSquares; i++) {
         const square = document.createElement('div');
