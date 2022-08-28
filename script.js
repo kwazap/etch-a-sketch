@@ -1,10 +1,15 @@
 
 const container = document.querySelector('.container')
+const slider = document.querySelector('.slider')
+const sliderOutputValue = document.querySelector('#sliderValue')
 
 let mouseDown = false;
 container.addEventListener('mousedown', () => mouseDown = true);
 container.addEventListener('mouseup', () => mouseDown = false);
-let gridSize = 32;
+slider.addEventListener('input', updateSliderOutput);
+
+
+let gridSize = 16;
 let squareWidth = 640 / gridSize - 2;
 
 
@@ -21,4 +26,8 @@ for (let i = 0; i < gridSize*gridSize; i++){
 function changeColor(e) {
     if (e.type === 'mouseover' && !mouseDown) return;
     this.style.backgroundColor = 'red';
+}
+
+function updateSliderOutput(e) {
+    sliderOutputValue.textContent = this.value;
 }
