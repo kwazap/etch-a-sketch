@@ -1,8 +1,10 @@
 
-const container = document.querySelector('.container')
-const slider = document.querySelector('.slider')
-const sliderOutputValue = document.querySelector('#sliderValue')
-const clearButton = document.querySelector('.clear')
+const container = document.querySelector('.container');
+const slider = document.querySelector('.slider');
+const sliderOutputValue = document.querySelector('#sliderValue');
+const clearButton = document.querySelector('.clear');
+const brushColorPicker = document.querySelector('.brush-color-picker');
+const backgroundColorPicker = document.querySelector('.background-color-picker');
 
 let mouseDown = false;
 container.addEventListener('mousedown', () => mouseDown = true);
@@ -10,7 +12,11 @@ container.addEventListener('mouseup', () => mouseDown = false);
 slider.addEventListener('input', updateSliderOutput);
 slider.addEventListener('change', updateSize);
 clearButton.addEventListener('click', clearGrid);
+brushColorPicker.addEventListener('change', brushColorUpdate);
+backgroundColorPicker.addEventListener('change', backgroundColorUpdate)
 let numberOfSquares;
+let selectedBackgroundColor = '#36454f'
+let selectedBrushColor = '#ff0000';
 
 drawBoard(16);
 
@@ -30,7 +36,7 @@ function drawBoard(gridSize) {
 
 function changeColor(e) {
     if (e.type === 'mouseover' && !mouseDown) return;
-    this.style.backgroundColor = 'red';
+    this.style.backgroundColor = selectedBrushColor;
 }
 
 function updateSliderOutput(e) {
@@ -54,3 +60,13 @@ function clearGrid() {
         squares[i].style.backgroundColor = container.getAttribute('background-color');
     }
 }
+
+function brushColorUpdate(e) {
+    selectedBrushColor = this.value;
+}
+
+function backgroundColorUpdate(e) {
+    selectedBackgroundColor = this.value;
+}
+
+
