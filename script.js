@@ -10,7 +10,9 @@ const rainbowButton = document.querySelector('.rainbow');
 const eraseButton = document.querySelector('.erase');
 const lightenButton = document.querySelector('.lighten');
 const darkenButton = document.querySelector('.darken');
-const fillButton = document.querySelector('.fill')
+const fillButton = document.querySelector('.fill');
+const sampleButton = document.querySelector('.sample');
+const brushButton = document.querySelector('.brush');
 
 let mouseDown = false;
 container.addEventListener('mousedown', () => mouseDown = true);
@@ -27,7 +29,9 @@ rainbowButton.addEventListener('click', toolToggle);
 eraseButton.addEventListener('click', toolToggle);
 lightenButton.addEventListener('click', toolToggle);
 darkenButton.addEventListener('click', toolToggle);
-fillButton.addEventListener('click',toolToggle)
+fillButton.addEventListener('click', toolToggle)
+sampleButton.addEventListener('click', toolToggle)
+brushButton.addEventListener('click',toolToggle)
 let numberOfSquares;
 let gridSize = 16;
 let selectedBackgroundColor = '#36454f'
@@ -35,6 +39,7 @@ let selectedBrushColor = '#ff0000';
 let selectedTool = 'brush';
 let squares = document.querySelectorAll('.square');
 let squaresArray = [];
+let previousTool = 'brush';
 
 drawBoard(gridSize);
 
@@ -72,15 +77,15 @@ function applyTool(e) {
         case 'darken':
             applyDarken(this);
             break
-        case 'erase': {
+        case 'erase':
             applyErase(this)
             break;
-        }
-        case 'fill': {
+        case 'fill':
             applyFill(this)
             break;
-        }
-    
+        case 'sample':
+            applySample(this);
+            break;    
         default:
             break;
     }
@@ -128,6 +133,7 @@ function applyDarken(target) {
 }
 
 function applyErase(target) {
+    selectedBackgroundColor = backgroundColorPicker.value;
     target.style.backgroundColor = selectedBackgroundColor;
     if (gridVisibility === 0) {
         target.style.borderColor = selectedBackgroundColor;
@@ -192,13 +198,17 @@ function gridToggle(e) {
 }
 
 function toolToggle(e) {
+    previousTool = selectedTool;
     eraseButton.style.backgroundColor = '#FCFCFC';
     rainbowButton.style.backgroundColor = '#FCFCFC';
     darkenButton.style.backgroundColor = '#FCFCFC';
     lightenButton.style.backgroundColor = '#FCFCFC';
     fillButton.style.backgroundColor = '#FCFCFC';
+    sampleButton.style.backgroundColor = '#FCFCFC';
+    brushButton.style.backgroundColor = '#FCFCFC'
     if (selectedTool === this.className) {
         selectedTool = 'brush';
+        brushButton.style.backgroundColor = 'aqua';
         return;
     }
     switch (this.className) {
@@ -222,9 +232,29 @@ function toolToggle(e) {
             selectedTool = 'fill';
             fillButton.style.backgroundColor = 'aqua';
             break;
+        case 'sample':
+            selectedTool = 'sample';
+            sampleButton.style.backgroundColor = 'aqua';
+            break;
+        case 'brush':
+            selectedTool = 'brush';
+            brushButton.style.backgroundColor = 'aqua';
+            break;
         default:
             break;
     }
+}
+
+function applySample(target) {
+    selectedBrushColor = rgbToHex(target.style.backgroundColor);
+    if (previousTool === 'erase') {
+        backgroundColorPicker.value = rgbToHex(target.style.backgroundColor);
+    } else {
+        brushColorPicker.value = rgbToHex(target.style.backgroundColor);
+    }
+    selectedTool = previousTool;    
+    toolToggle();    
+    document.querySelector(`.${previousTool}`).style.backgroundColor = 'aqua';
 }
 
 function applyFill(target) {
