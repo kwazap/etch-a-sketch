@@ -30,6 +30,8 @@ let numberOfSquares;
 let selectedBackgroundColor = '#36454f'
 let selectedBrushColor = '#ff0000';
 let selectedTool = 'brush';
+let squares = document.querySelectorAll('.square');
+
 
 drawBoard(16);
 
@@ -45,6 +47,7 @@ function drawBoard(gridSize) {
         container.appendChild(square);
         square.addEventListener('mouseover', applyTool);
         square.addEventListener('mousedown', applyTool);
+        squares = document.querySelectorAll('.square');
     }
 }
 
@@ -136,10 +139,19 @@ function clearContainer() {
 }
 
 function clearGrid() {
-    squares = document.querySelectorAll('.square');
     for (let i = 0; i < squares.length; i++) {
-        squares[i].style.backgroundColor = container.getAttribute('background-color');
+     squares[i].style.backgroundColor = selectedBackgroundColor;
     }
+    if (gridVisibility === 1) {
+        for (let i = 0; i < squares.length; i++) {
+            squares[i].style.borderColor = 'black';            
+        }
+    } else {
+        for (let i = 0; i < squares.length; i++) {
+            squares[i].style.borderColor = squares[i].style.backgroundColor;            
+        }
+    }
+    
 }
 
 function brushColorUpdate(e) {
