@@ -267,6 +267,9 @@ function applyFill(target) {
         if (rgbToHex(target.style.backgroundColor) === selectedBrushColor) return;
 
         target.style.backgroundColor = selectedBrushColor;
+        if (gridVisibility === 0) {
+            target.style.borderColor = selectedBrushColor;
+        }
         let point = Number(target.id); 
         
         if (!(point % gridSize === 0) && squaresArray[point - 1].style.backgroundColor === colorCriteria) {
