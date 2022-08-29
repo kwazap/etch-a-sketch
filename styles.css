@@ -41,3 +41,7 @@ main {
 .slider-container {
     display: flex;
 }
+
+.pressed {
+    background-color: aqua;
+}

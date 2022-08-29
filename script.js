@@ -5,6 +5,7 @@ const sliderOutputValue = document.querySelector('#sliderValue');
 const clearButton = document.querySelector('.clear');
 const brushColorPicker = document.querySelector('.brush-color-picker');
 const backgroundColorPicker = document.querySelector('.background-color-picker');
+const gridVisibilityButton = document.querySelector('.grid-visibility');
 
 let mouseDown = false;
 container.addEventListener('mousedown', () => mouseDown = true);
@@ -13,7 +14,10 @@ slider.addEventListener('input', updateSliderOutput);
 slider.addEventListener('change', updateSize);
 clearButton.addEventListener('click', clearGrid);
 brushColorPicker.addEventListener('change', brushColorUpdate);
-backgroundColorPicker.addEventListener('change', backgroundColorUpdate)
+backgroundColorPicker.addEventListener('change', backgroundColorUpdate);
+gridVisibilityButton.className = 'grid-visibility pressed'
+let gridVisibility = 1;
+gridVisibilityButton.addEventListener('click', gridToggle);
 let numberOfSquares;
 let selectedBackgroundColor = '#36454f'
 let selectedBrushColor = '#ff0000';
@@ -28,6 +32,7 @@ function drawBoard(gridSize) {
         square.className = 'square';
         square.style.width = `${squareWidth}px`;
         square.style.height = `${squareWidth}px`;
+        square.style.backgroundColor = selectedBackgroundColor
         container.appendChild(square);
         square.addEventListener('mouseover', changeColor);
         square.addEventListener('mousedown', changeColor);
@@ -69,4 +74,18 @@ function backgroundColorUpdate(e) {
     selectedBackgroundColor = this.value;
 }
 
+function gridToggle(e) {
+    squares = document.querySelectorAll('.square');
+
+    if (gridVisibility === 1) {
+        for (let i = 0; i < squares.length; i++) {
+            squares[i].style.borderColor = squares[i].style.backgroundColor;
+        }
+        gridVisibility = 0;
+    } else {
+        for (let i = 0; i < squares.length; i++) {
+            squares[i].style.borderColor = 'black';
+        }
+        gridVisibility = 1;}
+}
 
