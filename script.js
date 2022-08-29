@@ -6,10 +6,10 @@ const clearButton = document.querySelector('.clear');
 const brushColorPicker = document.querySelector('.brush-color-picker');
 const backgroundColorPicker = document.querySelector('.background-color-picker');
 const gridVisibilityButton = document.querySelector('.grid-visibility');
-const rainbowButton = document.querySelector('.rainbow-button');
-const eraseButton = document.querySelector('.erase-button');
-const lightenButton = document.querySelector('.lighten-button');
-const darkenButton = document.querySelector('.darken-button');
+const rainbowButton = document.querySelector('.rainbow');
+const eraseButton = document.querySelector('.erase');
+const lightenButton = document.querySelector('.lighten');
+const darkenButton = document.querySelector('.darken');
 
 let mouseDown = false;
 container.addEventListener('mousedown', () => mouseDown = true);
@@ -50,11 +50,22 @@ function drawBoard(gridSize) {
 
 function applyTool(e) {
     if (e.type === 'mouseover' && !mouseDown) return;
-    let target = this;
     switch (selectedTool) {
         case 'brush':
-            changeColor(target);
+            changeColor(this);
             break;
+        case 'rainbow':
+            applyRainbow(this);
+            break;
+        case 'lighten':
+            applyLighten(this);
+            break
+        case 'darken':
+            applyDarken(this);
+            break
+        case 'erase': {
+            applyErase(this)
+        }
     
         default:
             break;
@@ -64,7 +75,48 @@ function applyTool(e) {
 function changeColor(target) {
     target.style.backgroundColor = selectedBrushColor;
     if (gridVisibility === 0) {
-        this.style.borderColor = selectedBrushColor;
+        target.style.borderColor = selectedBrushColor;
+    }
+}
+
+function applyRainbow(target) {
+    let hue = Math.ceil(Math.random() * 360);
+    target.style.backgroundColor = `hsl(${hue},100%,50%)`;
+    if (gridVisibility === 0) {
+        target.style.borderColor = `hsl(${hue},100%,50%)`;
+    }
+}
+
+function applyLighten(target) {
+    let color = target.style.backgroundColor;
+    let rgb = color.slice(4, -1).split(',')
+    for (let i = 0; i < 3; i++) {
+        rgb[i] = Number(rgb[i]) + 26;
+        if (rgb[i] > 255) { rgb[i] = 255 }        
+    }
+    target.style.backgroundColor = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+    if (gridVisibility === 0) {
+        target.style.borderColor = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+    }
+}
+
+function applyDarken(target) {
+    let color = target.style.backgroundColor;
+    let rgb = color.slice(4, -1).split(',')
+    for (let i = 0; i < 3; i++) {
+        rgb[i] = Number(rgb[i]) - 26;
+        if (rgb[i] < 0) { rgb[i] = 0}
+    }
+    target.style.backgroundColor = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+    if (gridVisibility === 0) {
+        target.style.borderColor = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+    }
+}
+
+function applyErase(target) {
+    target.style.backgroundColor = selectedBackgroundColor;
+    if (gridVisibility === 0) {
+        target.style.borderColor = selectedBackgroundColor;
     }
 }
 
@@ -100,7 +152,6 @@ function backgroundColorUpdate(e) {
 
 function gridToggle(e) {
     squares = document.querySelectorAll('.square');
-
     if (gridVisibility === 1) {
         for (let i = 0; i < squares.length; i++) {
             squares[i].style.borderColor = squares[i].style.backgroundColor;
@@ -117,18 +168,30 @@ function gridToggle(e) {
 }
 
 function toolToggle(e) {
+    eraseButton.style.backgroundColor = '#FCFCFC';
+    rainbowButton.style.backgroundColor = '#FCFCFC';
+    darkenButton.style.backgroundColor = '#FCFCFC';
+    lightenButton.style.backgroundColor = '#FCFCFC';
+    if (selectedTool === this.className) {
+        selectedTool = 'brush';
+        return;
+    }
     switch (this.className) {
-        case 'erase-button':
-            selectedTool = 'erase';            
+        case 'erase':
+            selectedTool = 'erase';
+            eraseButton.style.backgroundColor = 'aqua';
             break;
-        case 'rainbow-button':
+        case 'rainbow':
             selectedTool = 'rainbow';
+            rainbowButton.style.backgroundColor = 'aqua';
             break;
-        case 'lighten-button':
+        case 'lighten':
             selectedTool = 'lighten';
+            lightenButton.style.backgroundColor = 'aqua';
             break;
-        case 'darken-button':
+        case 'darken':
             selectedTool = 'darken';
+            darkenButton.style.backgroundColor = 'aqua';
             break;    
         default:
             break;
