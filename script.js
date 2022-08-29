@@ -42,6 +42,9 @@ function drawBoard(gridSize) {
 function changeColor(e) {
     if (e.type === 'mouseover' && !mouseDown) return;
     this.style.backgroundColor = selectedBrushColor;
+    if (gridVisibility === 0) {
+        this.style.borderColor = selectedBrushColor;
+    }
 }
 
 function updateSliderOutput(e) {
