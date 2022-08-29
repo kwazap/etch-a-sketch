@@ -6,6 +6,10 @@ const clearButton = document.querySelector('.clear');
 const brushColorPicker = document.querySelector('.brush-color-picker');
 const backgroundColorPicker = document.querySelector('.background-color-picker');
 const gridVisibilityButton = document.querySelector('.grid-visibility');
+const rainbowButton = document.querySelector('.rainbow-button');
+const eraseButton = document.querySelector('.erase-button');
+const lightenButton = document.querySelector('.lighten-button');
+const darkenButton = document.querySelector('.darken-button');
 
 let mouseDown = false;
 container.addEventListener('mousedown', () => mouseDown = true);
@@ -18,9 +22,14 @@ backgroundColorPicker.addEventListener('change', backgroundColorUpdate);
 gridVisibilityButton.className = 'grid-visibility pressed'
 let gridVisibility = 1;
 gridVisibilityButton.addEventListener('click', gridToggle);
+rainbowButton.addEventListener('click', toolToggle);
+eraseButton.addEventListener('click', toolToggle);
+lightenButton.addEventListener('click', toolToggle);
+darkenButton.addEventListener('click', toolToggle);
 let numberOfSquares;
 let selectedBackgroundColor = '#36454f'
 let selectedBrushColor = '#ff0000';
+let selectedTool = 'brush';
 
 drawBoard(16);
 
@@ -34,14 +43,26 @@ function drawBoard(gridSize) {
         square.style.height = `${squareWidth}px`;
         square.style.backgroundColor = selectedBackgroundColor
         container.appendChild(square);
-        square.addEventListener('mouseover', changeColor);
-        square.addEventListener('mousedown', changeColor);
+        square.addEventListener('mouseover', applyTool);
+        square.addEventListener('mousedown', applyTool);
     }
 }
 
-function changeColor(e) {
+function applyTool(e) {
     if (e.type === 'mouseover' && !mouseDown) return;
-    this.style.backgroundColor = selectedBrushColor;
+    let target = this;
+    switch (selectedTool) {
+        case 'brush':
+            changeColor(target);
+            break;
+    
+        default:
+            break;
+    }
+}
+
+function changeColor(target) {
+    target.style.backgroundColor = selectedBrushColor;
     if (gridVisibility === 0) {
         this.style.borderColor = selectedBrushColor;
     }
@@ -95,3 +116,21 @@ function gridToggle(e) {
     }
 }
 
+function toolToggle(e) {
+    switch (this.className) {
+        case 'erase-button':
+            selectedTool = 'erase';            
+            break;
+        case 'rainbow-button':
+            selectedTool = 'rainbow';
+            break;
+        case 'lighten-button':
+            selectedTool = 'lighten';
+            break;
+        case 'darken-button':
+            selectedTool = 'darken';
+            break;    
+        default:
+            break;
+    }
+}
