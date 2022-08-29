@@ -85,10 +85,13 @@ function gridToggle(e) {
             squares[i].style.borderColor = squares[i].style.backgroundColor;
         }
         gridVisibility = 0;
+        gridVisibilityButton.style.backgroundColor = '#FCFCFC'
     } else {
         for (let i = 0; i < squares.length; i++) {
             squares[i].style.borderColor = 'black';
         }
-        gridVisibility = 1;}
+        gridVisibility = 1;
+        gridVisibilityButton.style.backgroundColor = 'aqua'
+    }
 }
 
