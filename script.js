@@ -10,6 +10,7 @@ const rainbowButton = document.querySelector('.rainbow');
 const eraseButton = document.querySelector('.erase');
 const lightenButton = document.querySelector('.lighten');
 const darkenButton = document.querySelector('.darken');
+const fillButton = document.querySelector('.fill')
 
 let mouseDown = false;
 container.addEventListener('mousedown', () => mouseDown = true);
@@ -26,14 +27,16 @@ rainbowButton.addEventListener('click', toolToggle);
 eraseButton.addEventListener('click', toolToggle);
 lightenButton.addEventListener('click', toolToggle);
 darkenButton.addEventListener('click', toolToggle);
+fillButton.addEventListener('click',toolToggle)
 let numberOfSquares;
+let gridSize = 16;
 let selectedBackgroundColor = '#36454f'
 let selectedBrushColor = '#ff0000';
 let selectedTool = 'brush';
 let squares = document.querySelectorAll('.square');
+let squaresArray = [];
 
-
-drawBoard(16);
+drawBoard(gridSize);
 
 function drawBoard(gridSize) {
     let squareWidth = 640 / gridSize ;
@@ -43,12 +46,15 @@ function drawBoard(gridSize) {
         square.className = 'square';
         square.style.width = `${squareWidth}px`;
         square.style.height = `${squareWidth}px`;
-        square.style.backgroundColor = selectedBackgroundColor
+        square.style.backgroundColor = selectedBackgroundColor;
+        square.setAttribute('id', `${i}`);
         container.appendChild(square);
         square.addEventListener('mouseover', applyTool);
         square.addEventListener('mousedown', applyTool);
-        squares = document.querySelectorAll('.square');
+        
     }
+    squares = document.querySelectorAll('.square');
+    squaresArray = Array.from(squares);
 }
 
 function applyTool(e) {
@@ -68,6 +74,11 @@ function applyTool(e) {
             break
         case 'erase': {
             applyErase(this)
+            break;
+        }
+        case 'fill': {
+            applyFill(this)
+            break;
         }
     
         default:
@@ -92,7 +103,7 @@ function applyRainbow(target) {
 
 function applyLighten(target) {
     let color = target.style.backgroundColor;
-    let rgb = color.slice(4, -1).split(',')
+    let rgb = color.slice(4, -1).split(',');
     for (let i = 0; i < 3; i++) {
         rgb[i] = Number(rgb[i]) + 26;
         if (rgb[i] > 255) { rgb[i] = 255 }        
@@ -125,6 +136,7 @@ function applyErase(target) {
 
 function updateSliderOutput(e) {
     sliderOutputValue.textContent = this.value;
+    gridSize = Number(this.value);
 }
 
 function updateSize(e) {
@@ -184,6 +196,7 @@ function toolToggle(e) {
     rainbowButton.style.backgroundColor = '#FCFCFC';
     darkenButton.style.backgroundColor = '#FCFCFC';
     lightenButton.style.backgroundColor = '#FCFCFC';
+    fillButton.style.backgroundColor = '#FCFCFC';
     if (selectedTool === this.className) {
         selectedTool = 'brush';
         return;
@@ -205,7 +218,51 @@ function toolToggle(e) {
             selectedTool = 'darken';
             darkenButton.style.backgroundColor = 'aqua';
             break;    
+        case 'fill':
+            selectedTool = 'fill';
+            fillButton.style.backgroundColor = 'aqua';
+            break;
         default:
             break;
     }
+}
+
+function applyFill(target) {
+    const colorCriteria = target.style.backgroundColor;
+    squares = document.querySelectorAll('.square');
+
+    fillRecursive(target, colorCriteria);
+
+    function fillRecursive(target, colorCriteria) {
+        if (rgbToHex(target.style.backgroundColor) === selectedBrushColor) return;
+
+        target.style.backgroundColor = selectedBrushColor;
+        let point = Number(target.id); 
+        
+        if (!(point % gridSize === 0) && squaresArray[point - 1].style.backgroundColor === colorCriteria) {
+            fillRecursive(squaresArray[point - 1], colorCriteria);
+        }
+        if (!((point + 1) % gridSize === 0) && squaresArray[point + 1].style.backgroundColor === colorCriteria) {
+            fillRecursive(squaresArray[point + 1], colorCriteria);
+        }
+        if (!((point + gridSize) > (gridSize * gridSize - 1)) && squaresArray[point + gridSize].style.backgroundColor === colorCriteria) {
+            fillRecursive(squaresArray[point + gridSize], colorCriteria);
+        }
+        if (!((point - gridSize) < 0) && squaresArray[point - gridSize].style.backgroundColor === colorCriteria) {
+            fillRecursive(squaresArray[point - gridSize], colorCriteria);
+        }
+    }     
+}
+
+function colorToHex(color) {
+    var hexadecimal = color.toString(16);
+    return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
+}
+
+function rgbToHex(rgbString) {
+    let rgb = rgbString.slice(4, -1).split(',')
+    red = Number(rgb[0]);
+    green = Number(rgb[1]);
+    blue = Number(rgb[2]);
+    return "#" + colorToHex(red) + colorToHex(green) + colorToHex(blue);
 }
