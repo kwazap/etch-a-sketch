@@ -34,8 +34,8 @@ sampleButton.addEventListener('click', toolToggle)
 brushButton.addEventListener('click',toolToggle)
 let numberOfSquares;
 let gridSize = 16;
-let selectedBackgroundColor = '#36454f'
-let selectedBrushColor = '#ff0000';
+let selectedBackgroundColor = backgroundColorPicker.value;
+let selectedBrushColor = brushColorPicker.value;
 let selectedTool = 'brush';
 let squares = document.querySelectorAll('.square');
 let squaresArray = [];
@@ -199,46 +199,46 @@ function gridToggle(e) {
 
 function toolToggle(e) {
     previousTool = selectedTool;
-    eraseButton.style.backgroundColor = '#FCFCFC';
-    rainbowButton.style.backgroundColor = '#FCFCFC';
-    darkenButton.style.backgroundColor = '#FCFCFC';
-    lightenButton.style.backgroundColor = '#FCFCFC';
-    fillButton.style.backgroundColor = '#FCFCFC';
-    sampleButton.style.backgroundColor = '#FCFCFC';
-    brushButton.style.backgroundColor = '#FCFCFC'
+    eraseButton.className = 'erase';
+    rainbowButton.className = 'rainbow';
+    darkenButton.className = 'darken';
+    lightenButton.className = 'lighten';
+    fillButton.className = 'fill';
+    sampleButton.className = 'sample';
+    brushButton.className = 'brush';
     if (selectedTool === this.className) {
         selectedTool = 'brush';
-        brushButton.style.backgroundColor = 'aqua';
+        brushButton.className = 'brush pressed';
         return;
     }
     switch (this.className) {
         case 'erase':
             selectedTool = 'erase';
-            eraseButton.style.backgroundColor = 'aqua';
+            eraseButton.className = 'erase pressed';
             break;
         case 'rainbow':
             selectedTool = 'rainbow';
-            rainbowButton.style.backgroundColor = 'aqua';
+            rainbowButton.className = 'rainbow pressed';
             break;
         case 'lighten':
             selectedTool = 'lighten';
-            lightenButton.style.backgroundColor = 'aqua';
+            lightenButton.className = 'lighten pressed';
             break;
         case 'darken':
             selectedTool = 'darken';
-            darkenButton.style.backgroundColor = 'aqua';
+            darkenButton.className = 'darken pressed';
             break;    
         case 'fill':
             selectedTool = 'fill';
-            fillButton.style.backgroundColor = 'aqua';
+            fillButton.className = 'fill pressed';
             break;
         case 'sample':
             selectedTool = 'sample';
-            sampleButton.style.backgroundColor = 'aqua';
+            sampleButton.className = 'sample pressed';
             break;
         case 'brush':
             selectedTool = 'brush';
-            brushButton.style.backgroundColor = 'aqua';
+            brushButton.className = 'brush pressed';
             break;
         default:
             break;
@@ -254,7 +254,7 @@ function applySample(target) {
     }
     selectedTool = previousTool;    
     toolToggle();    
-    document.querySelector(`.${previousTool}`).style.backgroundColor = 'aqua';
+    document.querySelector(`.${previousTool}`).className = `${previousTool} pressed`;
 }
 
 function applyFill(target) {
