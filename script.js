@@ -22,16 +22,17 @@ slider.addEventListener('change', updateSize);
 clearButton.addEventListener('click', clearGrid);
 brushColorPicker.addEventListener('change', brushColorUpdate);
 backgroundColorPicker.addEventListener('change', backgroundColorUpdate);
-gridVisibilityButton.className = 'grid-visibility pressed'
+gridVisibilityButton.className = 'grid-visibility pressed';
 let gridVisibility = 1;
 gridVisibilityButton.addEventListener('click', gridToggle);
 rainbowButton.addEventListener('click', toolToggle);
 eraseButton.addEventListener('click', toolToggle);
 lightenButton.addEventListener('click', toolToggle);
 darkenButton.addEventListener('click', toolToggle);
-fillButton.addEventListener('click', toolToggle)
-sampleButton.addEventListener('click', toolToggle)
-brushButton.addEventListener('click',toolToggle)
+fillButton.addEventListener('click', toolToggle);
+sampleButton.addEventListener('click', toolToggle);
+brushButton.addEventListener('click', toolToggle);
+sliderOutputValue.addEventListener('input', updateSliderPosition);
 let numberOfSquares;
 let gridSize = 16;
 let selectedBackgroundColor = backgroundColorPicker.value;
@@ -141,8 +142,19 @@ function applyErase(target) {
 }
 
 function updateSliderOutput(e) {
-    sliderOutputValue.textContent = this.value;
+    sliderOutputValue.value = this.value;
     gridSize = Number(this.value);
+}
+
+function updateSliderPosition (e) {
+    if (this.value > 100) {
+        sliderOutputValue.value = 100;
+    }
+    if (this.value < 1) {
+        sliderOutputValue.value = 1;        
+    }
+    clearContainer();
+    drawBoard(sliderOutputValue.value);
 }
 
 function updateSize(e) {
