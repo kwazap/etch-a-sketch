@@ -39,10 +39,6 @@ main {
     display: flex;
 }
 
-.slider-container {
-    display: flex;
-}
-
 .pressed {
     background-color: orangered;
     color: #11202b;
@@ -95,4 +91,45 @@ input{
     border-style: solid;
     border-color: black;
     border-width: 2px;
+}
+
+.slider-container{
+    display: flex;
+    margin: 32px;
+    background-color: #11202b;
+    border-style: solid;
+    border-radius: 4px;
+    padding: 4px 4px;
+    width: 188px;
+    justify-content: space-between;
+}
+
+#sliderValue {
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 4px;
+    border-color: orangered;
+    color: orangered;
+    text-align: center;
+    -moz-appearance: textfield;
+}
+
+#sliderValue:focus{
+    outline: none;
+    color: #11202b;
+    border-color: black;
+    background-color: orangered;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+}
+
+.slider {
+    width: auto;
+    max-width: 100px;
+    margin: 0px 12px;
+    accent-color: orangered;    
+    --thumb-height: 32px;
 }

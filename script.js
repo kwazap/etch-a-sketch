@@ -153,6 +153,7 @@ function updateSliderPosition (e) {
     if (this.value < 1) {
         sliderOutputValue.value = 1;        
     }
+    slider.value = sliderOutputValue.value;
     clearContainer();
     drawBoard(sliderOutputValue.value);
 }
